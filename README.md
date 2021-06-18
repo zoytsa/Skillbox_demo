@@ -1,6 +1,6 @@
 # flutter_first_app
 
-A new Flutter project. Skillbox homework by A.Baturskii.
+A new Flutter project. Skillbox homework by A.Baturskii...
 
 ## Getting Started
 
