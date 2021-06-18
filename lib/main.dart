@@ -72,41 +72,47 @@ class _MyHomePageState extends State<MyHomePage> {
 //
   Widget personsList(BuildContext context, List<Person> persons) {
     return SafeArea(
-        child: ListView.builder(
-            itemCount: persons.length,
-            itemBuilder: (context, index) => Container(
-                  child: Row(
-                    children: [
-                      IconButton(
-                          onPressed: () => {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => PersonDetailsPage(
-                                            id: persons[index].id)))
-                              },
-                          icon: Icon(Icons.person)),
-                      Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Text(
-                            persons[index].id.toString(),
-                            style: TextStyle(
-                              fontSize: 25,
-                            ),
-                          )),
-                      Flexible(
-                          child: Text(
-                        persons[index].name + persons[index].status,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 25,
-                        ),
-                      )),
-                    ],
+      child: ListView.builder(
+        itemCount: persons.length,
+        itemBuilder: (context, index) => Container(
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          PersonDetailsPage(id: persons[index].id),
+                    ),
+                  )
+                },
+                icon: Icon(Icons.person),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  persons[index].id.toString(),
+                  style: TextStyle(
+                    fontSize: 25,
                   ),
-                )));
+                ),
+              ),
+              Flexible(
+                  child: Text(
+                persons[index].name + persons[index].status,
+                overflow: TextOverflow.ellipsis,
+                softWrap: true,
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 25,
+                ),
+              )),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget loader(BuildContext context) {
@@ -114,8 +120,8 @@ class _MyHomePageState extends State<MyHomePage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          'Load data...',
-          style: Theme.of(context).textTheme.headline4,
+          'Loading data...',
+          style: Theme.of(context).textTheme.headline2,
         ),
       ],
     );
@@ -127,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
       children: <Widget>[
         Text(
           'Ooops! Error is ${exception.toString()}',
-          style: Theme.of(context).textTheme.headline4,
+          style: Theme.of(context).textTheme.headline2,
         ),
       ],
     );
