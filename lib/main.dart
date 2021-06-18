@@ -69,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(body: Center(child: content));
   }
 
+//
   Widget personsList(BuildContext context, List<Person> persons) {
     return SafeArea(
         child: ListView.builder(
