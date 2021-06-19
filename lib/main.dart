@@ -69,7 +69,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(body: Center(child: content));
   }
 
-//
   Widget personsList(BuildContext context, List<Person> persons) {
     return SafeArea(
       child: ListView.builder(
@@ -138,21 +137,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
   }
-
-  // Widget genderIcon(BuildContext context, String gender) {
-  //   Widget icon = Icon(Icons.accessibility);
-  //   if (gender == 'Male')
-  //     icon = Icon(
-  //       Icons.male,
-  //       color: Colors.pink[400],
-  //       size: 24.0,
-  //     );
-  //   else if (gender == 'Female')
-  //     icon = Icon(
-  //       Icons.female,
-  //       color: Colors.blueAccent[400],
-  //       size: 24.0,
-  //     );
-  //   return icon;
-  // }
 }

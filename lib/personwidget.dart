@@ -56,8 +56,19 @@ class _State extends State<PersonDetailsPage> {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             Text('Status: ' + personDetails.status),
-            Text('Created: ' + personDetails.created),
             if (personDetails.type != '') Text('type: ' + personDetails.type),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 10.0),
+                ),
+                Icon(Icons.timelapse, color: Colors.blueAccent),
+                Text('Created: ' + personDetails.created,
+                    style: TextStyle(
+                        color: Colors.red[300], fontStyle: FontStyle.italic))
+              ],
+            ),
             personLocation(context, personDetails.locationName,
                 personDetails.locationUrl, 'Location'),
             personLocation(context, personDetails.originName,
@@ -116,7 +127,15 @@ Widget personLocation(BuildContext context, String locationName,
                 color: Colors.brown[400],
                 size: 24.0,
               ),
-              onTap: () => {}, // go to locationUrl and details...
+              onTap: () => {
+                if (locationUrl != 'unknown')
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            LocationDetailsPage(url: locationUrl)),
+                  ),
+              }, // go to locationUrl and details...
             ),
             Text(locationTitle + ': ' + locationName),
           ]),
@@ -139,6 +158,144 @@ Widget personEpisodes(BuildContext context, List episodes) {
               overflow: TextOverflow.ellipsis,
               softWrap: true,
               maxLines: 5,
+            ),
+          ),
+        )
+    ],
+  ));
+
+  return widget;
+}
+
+class LocationDetailsPage extends StatefulWidget {
+  LocationDetailsPage({required this.url}) : super();
+
+  final String url;
+
+  @override
+  _LocationDetailsPageState createState() =>
+      _LocationDetailsPageState(url: url);
+}
+
+class _LocationDetailsPageState extends State<LocationDetailsPage> {
+  _LocationDetailsPageState({required this.url}) : super();
+
+  String url;
+  LocationDetails? locationDetails = null;
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  void loadData() async {
+    var locationInfo = await loadLocation(url);
+    setState(() {
+      locationDetails = locationInfo;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var widget;
+    String myTitle;
+    final locationDetails = this.locationDetails;
+    if (locationDetails == null) {
+      widget = Center(child: Text("Please, wait for location details ..."));
+      myTitle = "";
+    } else {
+      widget = SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 20.0),
+            ),
+            Text(
+              locationDetails.name,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text('ID: ' + locationDetails.id.toString()),
+            //       Text('Name: ' + locationDetails.name),
+            Text('Type: ' + locationDetails.type),
+
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 40.0),
+                ),
+                Icon(Icons.short_text, color: Colors.black45),
+                Text('Type: ' + locationDetails.type,
+                    style: TextStyle(color: Colors.orange[500]))
+              ],
+            ),
+
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 40.0),
+                ),
+                Icon(Icons.linear_scale, color: Colors.purple),
+                Text('Dimension: ' + locationDetails.dimension,
+                    style: TextStyle(color: Colors.green[500]))
+              ],
+            ),
+
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 40.0),
+                ),
+                Icon(Icons.timelapse, color: Colors.blueAccent),
+                Text('Created: ' + locationDetails.created,
+                    style: TextStyle(
+                        color: Colors.red[300], fontStyle: FontStyle.italic))
+              ],
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(bottom: 20.0),
+            ),
+            Text(
+              'Residents:',
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            locationResidents(context, locationDetails.residents),
+          ],
+        ),
+      );
+      myTitle = locationDetails.name;
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Location details: " + myTitle),
+      ),
+      body: widget,
+    );
+  }
+}
+
+Widget locationResidents(BuildContext context, List residents) {
+  Widget widget = Flexible(
+      child: ListView(
+    children: <Widget>[
+      for (var i in residents)
+        Card(
+          child: Padding(
+            padding: EdgeInsets.only(left: 40.0),
+            child: Text(
+              i.toString(),
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              maxLines: 1,
             ),
           ),
         )

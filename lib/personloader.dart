@@ -1,5 +1,4 @@
 import 'dart:convert' as convert;
-
 import 'package:http/http.dart' as http;
 
 class PersonDetails {
@@ -39,4 +38,42 @@ Future<PersonDetails> loadPerson(int id) async {
   personDetails.episodes = item["episode"];
 
   return personDetails;
+}
+
+class LocationDetails {
+  int id = 0;
+  String name = "";
+  String type = "";
+  String dimension = "";
+  String url = "";
+  String created = "";
+  List<dynamic> residents = [];
+}
+
+Future<LocationDetails> loadLocation(String url) async {
+  LocationDetails locationDetails;
+
+  if (url == 'unknown' || url == '') {
+    locationDetails = LocationDetails();
+    locationDetails.id = 0;
+    locationDetails.name = 'unknown';
+    locationDetails.type = 'unknown';
+    locationDetails.dimension = 'unknown';
+    locationDetails.url = 'unknown';
+    locationDetails.created = 'unknown';
+    locationDetails.residents = [];
+  } else {
+    var response = await http.get(Uri.parse(url));
+
+    var item = convert.jsonDecode(response.body);
+    locationDetails = LocationDetails();
+    locationDetails.id = item["id"];
+    locationDetails.name = item["name"];
+    locationDetails.type = item["type"];
+    locationDetails.dimension = item["dimension"];
+    locationDetails.url = url;
+    locationDetails.created = item["created"];
+    locationDetails.residents = item["residents"];
+  }
+  return locationDetails;
 }
