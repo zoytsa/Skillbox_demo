@@ -15,27 +15,28 @@ class PersonDetails {
 
   String originName = "";
   String originUrl = "";
-  List<String> episodes = [];
+  List<dynamic> episodes = [];
 }
 
 Future<PersonDetails> loadPerson(int id) async {
   var response = await http
       .get(Uri.parse("https://rickandmortyapi.com/api/character/$id"));
-  PersonDetails person;
+  PersonDetails personDetails;
 
   var item = convert.jsonDecode(response.body);
-  person = PersonDetails();
-  person.id = item["id"];
-  person.name = item["name"];
-  person.avatar = item["image"];
-  person.locationName = item["location"]["name"];
-  person.locationUrl = item["location"]["url"];
-  person.status = item["status"];
-  person.created = item["created"];
-  person.gender = item["gender"];
-  person.type = item["type"];
-  person.originName = item["origin"]["name"];
-  person.originUrl = item["origin"]["url"];
+  personDetails = PersonDetails();
+  personDetails.id = item["id"];
+  personDetails.name = item["name"];
+  personDetails.avatar = item["image"];
+  personDetails.locationName = item["location"]["name"];
+  personDetails.locationUrl = item["location"]["url"];
+  personDetails.status = item["status"];
+  personDetails.created = item["created"];
+  personDetails.gender = item["gender"];
+  personDetails.type = item["type"];
+  personDetails.originName = item["origin"]["name"];
+  personDetails.originUrl = item["origin"]["url"];
+  personDetails.episodes = item["episode"];
 
-  return person;
+  return personDetails;
 }

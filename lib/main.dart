@@ -75,31 +75,30 @@ class _MyHomePageState extends State<MyHomePage> {
       child: ListView.builder(
         itemCount: persons.length,
         itemBuilder: (context, index) => Container(
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          PersonDetailsPage(id: persons[index].id),
-                    ),
-                  )
-                },
-                icon: Icon(Icons.person),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Text(
-                  persons[index].id.toString(),
-                  style: TextStyle(
-                    fontSize: 25,
+          child: Row(children: [
+            IconButton(
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        PersonDetailsPage(id: persons[index].id),
                   ),
+                )
+              },
+              icon: Icon(Icons.person),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8),
+              child: Text(
+                persons[index].id.toString(),
+                style: TextStyle(
+                  fontSize: 25,
                 ),
               ),
-              Flexible(
-                  child: Text(
+            ),
+            Flexible(
+              child: Text(
                 persons[index].name + persons[index].status,
                 overflow: TextOverflow.ellipsis,
                 softWrap: true,
@@ -107,9 +106,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(
                   fontSize: 25,
                 ),
-              )),
-            ],
-          ),
+              ),
+            ),
+            genderIcon(context, persons[index].gender),
+          ]),
         ),
       ),
     );
@@ -138,4 +138,21 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
   }
+
+  // Widget genderIcon(BuildContext context, String gender) {
+  //   Widget icon = Icon(Icons.accessibility);
+  //   if (gender == 'Male')
+  //     icon = Icon(
+  //       Icons.male,
+  //       color: Colors.pink[400],
+  //       size: 24.0,
+  //     );
+  //   else if (gender == 'Female')
+  //     icon = Icon(
+  //       Icons.female,
+  //       color: Colors.blueAccent[400],
+  //       size: 24.0,
+  //     );
+  //   return icon;
+  // }
 }
